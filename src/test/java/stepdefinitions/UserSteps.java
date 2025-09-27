@@ -94,4 +94,22 @@ public class UserSteps {
             response.jsonPath();
         }, "Response is not valid JSON");
     }
+    
+    @Then("I print the complete response")
+    public void print_complete_response() {
+        String fullResponse = "\n=== COMPLETE API RESPONSE ===\n" +
+                "Status Code: " + response.getStatusCode() + "\n" +
+                "Status Line: " + response.getStatusLine() + "\n" +
+                "Headers: " + response.getHeaders().toString() + "\n" +
+                "Response Time: " + response.getTime() + " ms\n" +
+                "Content Type: " + response.getContentType() + "\n" +
+                "Response Body:\n" + response.asString() + "\n" +
+                "=== END OF RESPONSE ===\n";
+        
+        System.out.println(fullResponse);
+        System.err.println(fullResponse); // Also print to stderr to ensure visibility
+        
+        // Also log it
+        org.slf4j.LoggerFactory.getLogger(this.getClass()).info(fullResponse);
+    }
 }

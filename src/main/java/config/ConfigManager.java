@@ -68,7 +68,8 @@ public class ConfigManager {
      */
     public static Map<String, String> getHeaders() {
         Map<String, String> headers = new HashMap<>();
-        headers.put("Accept", "application/xml");
+        headers.put("Accept", "application/json, application/xml, */*");
+        headers.put("Content-Type", "application/json");
         
         // Bearer token authentication
         String bearerToken = getProperty("bearer.token");
