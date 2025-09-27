@@ -24,7 +24,14 @@ public class ConfigManager {
      * Default environment is 'qa' if not specified
      */
     private static void loadProperties() {
-        String env = System.getProperty("env", DEFAULT_ENV);
+        String env = System.getProperty("env");
+        
+        // Handle null, empty, or blank environment values
+        if (env == null || env.trim().isEmpty()) {
+            env = DEFAULT_ENV;
+            System.out.println("Environment not specified, using default: " + env);
+        }
+        
         String configFile = "config/application-" + env + ".properties";
         
         properties = new Properties();

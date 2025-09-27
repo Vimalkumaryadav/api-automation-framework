@@ -26,7 +26,7 @@ public class UserSteps {
     
     @Given("I have user data from {string}")
     public void i_have_user_data_from(String fileName) {
-        this.user = (User) JsonReader.readJson(fileName);
+        this.user = JsonReader.readJson(fileName, User.class);
     }
     
     @When("I send a GET request")

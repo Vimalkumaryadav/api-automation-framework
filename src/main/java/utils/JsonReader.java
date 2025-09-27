@@ -22,27 +22,41 @@ public class JsonReader {
      * @param clazz Target class type
      * @return Parsed object of specified type
      */
-    public static Object readJson(String filePath) {
+    public static <T> T readJson(String filePath, Class<T> clazz) {
         try (InputStream inputStream = JsonReader.class.getClassLoader()
                 .getResourceAsStream("testdata/" + filePath)) {
-
+            
             if (inputStream == null) {
                 throw new RuntimeException("JSON file not found: testdata/" + filePath);
             }
-
-            // Infer the class type from the file name (e.g., User.json -> models.User)
-            String className = filePath.substring(0, filePath.lastIndexOf('.'));
-            String modelClass = "models." + className.substring(0, 1).toUpperCase() + className.substring(1);
-            Class<?> clazz = Class.forName(modelClass);
-
-            Object result = objectMapper.readValue(inputStream, clazz);
+            
+            T result = objectMapper.readValue(inputStream, clazz);
             logger.info("Successfully read JSON file: {}", filePath);
             return result;
-
-        } catch (IOException | ClassNotFoundException e) {
+            
+        } catch (IOException e) {
             logger.error("Error reading JSON file: {}", filePath, e);
             throw new RuntimeException("Failed to read JSON file: " + filePath, e);
         }
+    }
+    
+    /**
+     * Read JSON file and auto-infer class type for User objects (legacy method)
+     * 
+     * @param filePath Path to JSON file in resources/testdata/
+     * @return Parsed User object
+     */
+    public static Object readJson(String filePath) {
+        // For user files, default to User class
+        if (filePath.toLowerCase().contains("user")) {
+            try {
+                return readJson(filePath, Class.forName("models.User"));
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("User class not found", e);
+            }
+        }
+        
+        throw new RuntimeException("Cannot infer class type for file: " + filePath + ". Use readJson(filePath, Class) instead.");
     }
     
 
