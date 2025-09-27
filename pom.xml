@@ -92,6 +92,13 @@
             <version>${jackson.version}</version>
         </dependency>
         
+        <!-- Jackson for XML -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        
         <!-- Allure Reporting -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
