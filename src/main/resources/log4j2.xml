@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        
+        <!-- File Appender -->
+        <File name="FileAppender" fileName="target/logs/api-automation.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+        
+        <!-- Rolling File Appender -->
+        <RollingFile name="RollingFileAppender" fileName="target/logs/api-automation-rolling.log"
+                     filePattern="target/logs/api-automation-rolling-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+    </Appenders>
+    
+    <Loggers>
+        <!-- Root Logger -->
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileAppender"/>
+        </Root>
+        
+        <!-- Framework specific loggers -->
+        <Logger name="clients" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileAppender"/>
+        </Logger>
+        
+        <Logger name="stepdefinitions" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileAppender"/>
+        </Logger>
+        
+        <Logger name="utils" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileAppender"/>
+        </Logger>
+        
+        <!-- REST Assured logging -->
+        <Logger name="io.restassured" level="WARN" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileAppender"/>
+        </Logger>
+        
+        <!-- Cucumber logging -->
+        <Logger name="io.cucumber" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileAppender"/>
+        </Logger>
+    </Loggers>
+</Configuration>
